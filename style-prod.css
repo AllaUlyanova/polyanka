@@ -245,4 +245,9 @@ main { max-width: var(--wrap); margin: 0 auto; padding: 0 var(--gut); }
   .s-prod .s-promises { grid-template-columns: repeat(auto-fit, minmax(min(100%, 16.25rem), 1fr)); gap: 1rem; }
   .s-prod .s-faq { max-width: 54rem; }
 }
+/* компьютер и планшет: три фото одного размера, заголовки шагов без переносов по слогам */
+@media (min-width: 861px) {
+  .s-lite .s-photos { grid-template-columns: repeat(3, 1fr); }
+  .s-lite .s-steps h3 { hyphens: manual; overflow-wrap: break-word; }
+}
 /* широкий экран: конец */
