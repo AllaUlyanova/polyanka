@@ -38,9 +38,12 @@
     e.preventDefault();
     if (a.hasAttribute("data-s-needs-consent") && !a.closest("form").querySelector("[data-s-consent]").checked) return;
     const kind = a.dataset.sMsg;
-    if (kind === "whatsapp") {
-      const n = body.dataset.wa; const url = (isSlot(n) ? "https://wa.me/" : "https://wa.me/" + digits(n)) + "?text=" + encodeURIComponent(message);
-      window.open(url, "_blank", "noopener"); return;
+    if (kind === "max") {
+      // MAX не принимает готовый текст по ссылке: копируем его и открываем чат
+      try { await navigator.clipboard.writeText(message); } catch (_) {}
+      const note = document.querySelector("[data-s-copied]");
+      if (note) { note.hidden = false; setTimeout(() => (note.hidden = true), 4000); }
+      window.open(body.dataset.max, "_blank", "noopener"); return;
     }
     // Telegram и MAX не принимают готовый текст по ссылке: копируем его и открываем чат
     try { await navigator.clipboard.writeText(message); } catch (_) {}
@@ -55,6 +58,13 @@
     const c = e.target.closest("[data-s-consent]"); if (!c) return;
     c.closest("form").querySelectorAll("[data-s-needs-consent]").forEach((b) => b.setAttribute("aria-disabled", c.checked ? "false" : "true"));
   });
+
+  // ---- MAX: кнопки и согласие видны, только когда в data-max указана ссылка на чат; иначе – звонок
+  (() => {
+    const has = /^https:\/\/max\.ru\//.test(body.dataset.max || "");
+    document.querySelectorAll("[data-s-msg=max], [data-s-maxonly]").forEach((el) => (el.hidden = !has));
+    document.querySelectorAll("[data-s-nomax]").forEach((el) => (el.hidden = has));
+  })();
 
   // ---- cookie-баннер и Яндекс Метрика (152-ФЗ): Метрика грузится только после «Принять»
   (() => {

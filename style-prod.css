@@ -266,3 +266,4 @@ main { max-width: var(--wrap); margin: 0 auto; padding: 0 var(--gut); }
 .s-cookie a { text-decoration: underline; text-underline-offset: .15em; }
 .s-cookie__btns { display: flex; gap: 8px; flex-wrap: wrap; }
 .s-cookie button { cursor: pointer; font: inherit; }
+.s-btn[hidden], .s-consent[hidden], .s-consent__more[hidden] { display: none !important; }
