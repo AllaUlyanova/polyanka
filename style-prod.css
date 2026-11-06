@@ -251,3 +251,11 @@ main { max-width: var(--wrap); margin: 0 auto; padding: 0 var(--gut); }
   .s-lite .s-steps h3 { hyphens: manual; overflow-wrap: break-word; }
 }
 /* широкий экран: конец */
+
+/* согласие на обработку данных */
+.s-consent { display: flex; gap: .6rem; align-items: flex-start; margin: 0 0 .9rem; font-size: .88rem; line-height: 1.45; cursor: pointer; }
+.s-consent input { flex: none; width: 1.25rem; height: 1.25rem; margin: .1rem 0 0; accent-color: var(--c-accent, currentColor); }
+.s-consent a { text-decoration: underline; text-underline-offset: .15em; }
+.s-btn[aria-disabled="true"] { opacity: .45; cursor: not-allowed; filter: none; }
+.s-foot__legal { display: flex; flex-wrap: wrap; gap: .4rem 1.25rem; }
+.s-foot__legal a { text-decoration: underline; text-underline-offset: .15em; }

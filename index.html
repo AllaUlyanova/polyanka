@@ -49,8 +49,9 @@
       <fieldset><legend>День</legend><div class="s-chips" data-s-days></div></fieldset>
       <fieldset><legend>Время</legend><div class="s-chips" data-s-times></div></fieldset>
       <div class="s-bubble" aria-live="polite"><span class="s-bubble__label">Ваше сообщение</span><p data-s-bubble></p></div>
+      <label class="s-consent"><input type="checkbox" name="consent" data-s-consent><span>Согласен на обработку персональных данных: <a href="consent.html" target="_blank" rel="noopener">согласие</a>, <a href="privacy.html" target="_blank" rel="noopener">политика</a></span></label>
       <div class="s-send">
-        <a class="s-btn s-btn--wide" data-s-msg="whatsapp" href="#">Записаться в WhatsApp</a>
+        <a class="s-btn s-btn--wide" data-s-msg="whatsapp" data-s-needs-consent aria-disabled="true" href="#">Записаться в WhatsApp</a>
         
       </div>
       <p class="s-send__note" data-s-copied hidden>Текст скопирован – вставьте его в чат.</p>
@@ -144,7 +145,7 @@
     </div>
   </section>
 </main>
-<footer class="s-foot"><p>Полянка Сервис · Москва</p><p>Шиномонтаж, ремонт шин и дисков, датчики давления</p></footer>
+<footer class="s-foot"><p>Полянка Сервис · Москва</p><p>Шиномонтаж, ремонт шин и дисков, датчики давления</p><p class="s-foot__legal"><a href="privacy.html">Политика обработки персональных данных</a><a href="consent.html">Согласие на обработку данных</a></p></footer>
 <nav class="s-dock" aria-label="Быстрая связь"><a class="s-btn" href="#widget">Записаться</a><a class="s-btn s-btn--ghost" href="tel:+74956445230">Позвонить</a></nav>
 <script src="style.js" defer></script>
 </body>

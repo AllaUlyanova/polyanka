@@ -36,6 +36,7 @@
   document.addEventListener("click", async (e) => {
     const a = e.target.closest("[data-s-msg]"); if (!a) return;
     e.preventDefault();
+    if (a.hasAttribute("data-s-needs-consent") && !a.closest("form").querySelector("[data-s-consent]").checked) return;
     const kind = a.dataset.sMsg;
     if (kind === "whatsapp") {
       const n = body.dataset.wa; const url = (isSlot(n) ? "https://wa.me/" : "https://wa.me/" + digits(n)) + "?text=" + encodeURIComponent(message);
@@ -47,6 +48,12 @@
     if (note) { note.hidden = false; setTimeout(() => (note.hidden = true), 4000); }
     const tg = body.dataset.tg; const user = isSlot(tg) ? "" : String(tg).replace(/^@|https?:\/\/t\.me\//g, "");
     window.open("https://t.me/" + user, "_blank", "noopener");
+  });
+
+// ---- согласие на обработку данных (152-ФЗ): кнопка отправки неактивна без галочки
+  document.addEventListener("change", (e) => {
+    const c = e.target.closest("[data-s-consent]"); if (!c) return;
+    c.closest("form").querySelectorAll("[data-s-needs-consent]").forEach((b) => b.setAttribute("aria-disabled", c.checked ? "false" : "true"));
   });
 
   // неразрывные пробелы: сумма не рвётся переносом
