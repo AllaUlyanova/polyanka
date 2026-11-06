@@ -56,6 +56,33 @@
     c.closest("form").querySelectorAll("[data-s-needs-consent]").forEach((b) => b.setAttribute("aria-disabled", c.checked ? "false" : "true"));
   });
 
+  // ---- cookie-баннер и Яндекс Метрика (152-ФЗ): Метрика грузится только после «Принять»
+  (() => {
+    const KEY = "cookie_consent", DAYS = 365;
+    const getChoice = () => { const m = document.cookie.match(/(?:^|; )cookie_consent=([^;]*)/); return m ? m[1] : ""; };
+    const setChoice = (v) => { document.cookie = KEY + "=" + v + "; max-age=" + DAYS * 86400 + "; path=/; SameSite=Lax"; };
+    const loadMetrika = () => {
+      const id = body.dataset.ym; if (!/^\d+$/.test(id || "") || window.__ymLoaded) return;
+      window.__ymLoaded = true;
+      (function (m, e, t, r, i, k, a) { m[i] = m[i] || function () { (m[i].a = m[i].a || []).push(arguments); }; m[i].l = 1 * new Date(); k = e.createElement(t); a = e.getElementsByTagName(t)[0]; k.async = 1; k.src = r; a.parentNode.insertBefore(k, a); })(window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+      window.ym(+id, "init", { clickmap: true, trackLinks: true, accurateTrackBounce: true });
+    };
+    let box = null;
+    const close = () => { if (box) { box.remove(); box = null; } };
+    const choose = (v) => { setChoice(v); close(); if (v === "all") loadMetrika(); };
+    const show = () => {
+      if (box) return;
+      box = document.createElement("div");
+      box.className = "s-cookie"; box.setAttribute("role", "dialog"); box.setAttribute("aria-label", "Файлы cookie");
+      box.innerHTML = '<p>Сайт использует cookie. Необходимые работают всегда, Яндекс Метрика включится только после «Принять». Подробнее – в <a href="privacy.html">политике обработки персональных данных</a>.</p><div class="s-cookie__btns"><button type="button" class="s-btn s-btn--sm" data-c="all">Принять</button><button type="button" class="s-btn s-btn--sm s-btn--ghost" data-c="necessary">Только необходимые</button></div>';
+      box.addEventListener("click", (e) => { const b = e.target.closest("[data-c]"); if (b) choose(b.dataset.c); });
+      document.body.appendChild(box);
+    };
+    document.addEventListener("click", (e) => { if (e.target.closest("[data-s-cookie-open]")) { e.preventDefault(); show(); } });
+    const c = getChoice();
+    if (c === "all") loadMetrika(); else if (c !== "necessary") show();
+  })();
+
   // неразрывные пробелы: сумма не рвётся переносом
   const rub = (n) => Math.round(n).toLocaleString("ru-RU").replace(/[   ]/g, " ") + " ₽";
 
